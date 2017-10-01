@@ -8,6 +8,7 @@
   },
   "scripts": {
     "test": "jest --coverage --coverageReporters=html",
+    "test-production": "TEST_PRODUCTION=1 npm test",
     "build": "babel src/index.js --out-file index.js",
     "watch": "babel src/index.js --watch --out-file index.js"
   },

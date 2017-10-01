@@ -1,7 +1,13 @@
 const assert = require( 'assert' )
 const time = require( 'time' )
 
-const { default: ISOWeek } = require( '../' )
+let modulePath = '../src'
+
+if ( 'TEST_PRODUCTION' in process.env && process.env.TEST_PRODUCTION ) {
+	modulePath = '../'
+}
+
+const { default: ISOWeek } = require( modulePath )
 
 let dates = [
 	[ new Date( 2004, 11, 31 ), [ 2004, 53, 5 ] ],
