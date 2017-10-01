@@ -127,6 +127,13 @@ describe( 'ISOWeek', () => {
 
 			assert.strictEqual( week.year(), 2006 )
 		})
+
+		test('should not have own props other than .date, .utc', () => {
+			let week = new ISOWeek( date )
+			let expected = [ 'date', 'utc' ]
+
+			expect( Object.getOwnPropertyNames( week ) ).toEqual( expected )
+		})
 	} )
 
 	describe( '.parts()', () => {
