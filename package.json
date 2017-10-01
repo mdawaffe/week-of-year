@@ -1,0 +1,26 @@
+{
+  "name": "week-of-year",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha",
+    "build": "babel src/index.js --out-file index.js",
+    "watch": "babel src/index.js --watch --out-file index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-cli": "6.26.0",
+    "babel-preset-env": "1.6.0",
+    "mocha": "3.5.3",
+    "nyc": "11.2.1",
+    "time": "0.12.0"
+  },
+  "dependencies": {
+    "left-pad": "1.1.3"
+  }
+}
