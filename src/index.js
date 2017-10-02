@@ -27,10 +27,12 @@ export default class ISOWeek {
 
 	/**
 	 * Not very smart :)
-	 * YYYY-WWW-D
-	 * YYYY-WWW
-	 * y-w-d
-	 * y-w
+	 * @param {string} [format=ymd]:
+	 * 	YYYY-WWW-D
+	 * 	YYYY-WWW
+	 * 	y-w-d
+	 * 	y-w
+	 * @returns {string}
 	 */
 	format( format = 'ywd' ) {
 		let parts = this[PARTS]
@@ -109,6 +111,9 @@ function ISOWeekDateParts( date, utc ) {
 /**
  * Monday = 1
  * Sunday = 7
+ * @param {Date} date
+ * @param {boolean} utc Whether to treat date as UTC
+ * @returns {number}
  */
 function ISODayOfWeek( date, utc ) {
 	return 1 + ( date[ utc ? 'getUTCDay' : 'getDay' ]() + 6 ) % 7
