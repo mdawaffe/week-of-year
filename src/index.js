@@ -41,6 +41,7 @@ export default class ISOWeek {
 		case '-yw' :
 			return ISOWeek.format.apply( null, parts.slice( 0, 2 ) )
 		case '-ywd' :
+		default:
 			return ISOWeek.format.apply( null, parts )
 		}
 	}
