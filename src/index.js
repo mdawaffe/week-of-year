@@ -37,7 +37,9 @@ export default class ISOWeek {
 	format( format = 'ywd' ) {
 		let parts = this[PARTS]
 
-		format = Array.from( new Set( ( '-' + format ).toLowerCase().split( '' ) ) ).join( '' )
+		format = Array.from(
+			new Set( ( '-' + format ).toLowerCase().split( '' ) )
+		).join( '' )
 
 		switch ( format ) {
 		case '-yw' :
@@ -105,7 +107,17 @@ function ISOWeekDateParts( date, utc ) {
 	}
 	
 	// JAZZ HANDS!
-	return [ year, ( dow1 - 1 < 4 ) + 4 * ( month - 1 ) + ( ( ( 2 * ( month - 1 ) + ( day - 1 ) + dow1 - dow + 6 ) * 9 ) >> 6 ), dowOrig ];
+	return [
+		year,
+
+		( dow1 - 1 < 4 )
+		+
+		4 * ( month - 1 )
+		+
+		( ( ( 2 * month + day + dow1 - dow + 3 ) * 9 ) >> 6 ),
+
+		dowOrig
+	];
 }
 
 /**

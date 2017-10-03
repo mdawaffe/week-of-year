@@ -83,11 +83,14 @@ describe( 'ISOWeek', () => {
 		})
 
 		test('should return 7 for Sunday', () => {
-			assert.strictEqual( ISOWeek.day( new Date( Date.UTC( 2014, 8, 21 ) ), true ), 7 )
+			assert.strictEqual( ISOWeek.day( new Date( 2014, 8, 21 ) ), 7 )
 		})
 
 		test('should return 1 for UTC Monday', () => {
-			assert.strictEqual( ISOWeek.day( new Date( Date.UTC( 1970, 5, 1 ) ), true ), 1 )
+			assert.strictEqual( ISOWeek.day(
+				new Date( Date.UTC( 1970, 5, 1 ) ),
+				true
+			), 1 )
 		})
 	} )
 
@@ -138,61 +141,49 @@ describe( 'ISOWeek', () => {
 
 	describe( '.parts()', () => {
 		for ( let date of dates ) {
-			test(
-                'should return ' + date[1].toString() + ' for ' + date[0].toISOString().split( 'T' )[0],
-                () => {
-                    let week = new ISOWeek( date[0] )
-                    let parts = week.parts()
+			test( 'should return ' + date[1].toString() + ' for ' + date[0].toISOString().split( 'T' )[0], () => {
+				let week = new ISOWeek( date[0] )
+				let parts = week.parts()
 
-                    assert.strictEqual( Array.isArray( parts ), true )
-                    assert.equal( parts.toString(), date[1].toString() )
-                }
-            )
+				assert.strictEqual( Array.isArray( parts ), true )
+				assert.equal( parts.toString(), date[1].toString() )
+			} )
 		}
 	} )
 
 	describe( '.year()', () => {
 		for ( let date of dates ) {
-			test(
-                'should return ' + date[1][0] + ' for ' + date[0].toISOString().split( 'T' )[0],
-                () => {
-                    let week = new ISOWeek( date[0] )
-                    let year = week.year()
+			test( 'should return ' + date[1][0] + ' for ' + date[0].toISOString().split( 'T' )[0], () => {
+				let week = new ISOWeek( date[0] )
+				let year = week.year()
 
-                    assert.equal( typeof year, 'number' )
-                    assert.strictEqual( year, date[1][0] )
-                }
-            )
+				assert.equal( typeof year, 'number' )
+				assert.strictEqual( year, date[1][0] )
+			} )
 		}
 	} )
 
 	describe( '.week()', () => {
 		for ( let date of dates ) {
-			test(
-                'should return ' + date[1][1] + ' for ' + date[0].toISOString().split( 'T' )[0],
-                () => {
-                    let week = new ISOWeek( date[0] )
-                    let theWeek = week.week()
+			test( 'should return ' + date[1][1] + ' for ' + date[0].toISOString().split( 'T' )[0], () => {
+				let week = new ISOWeek( date[0] )
+				let theWeek = week.week()
 
-                    assert.equal( typeof theWeek, 'number' )
-                    assert.strictEqual( theWeek, date[1][1] )
-                }
-            )
+				assert.equal( typeof theWeek, 'number' )
+				assert.strictEqual( theWeek, date[1][1] )
+			} )
 		}
 	} )
 
 	describe( '.day()', () => {
 		for ( let date of dates ) {
-			test(
-                'should return ' + date[1][2] + ' for ' + date[0].toISOString().split( 'T' )[0],
-                () => {
-                    let week = new ISOWeek( date[0] )
-                    let day = week.day()
+			test( 'should return ' + date[1][2] + ' for ' + date[0].toISOString().split( 'T' )[0], () => {
+				let week = new ISOWeek( date[0] )
+				let day = week.day()
 
-                    assert.equal( typeof day, 'number' )
-                    assert.strictEqual( day, date[1][2] )
-                }
-            )
+				assert.equal( typeof day, 'number' )
+				assert.strictEqual( day, date[1][2] )
+			} )
 		}
 	} )
 

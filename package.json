@@ -7,16 +7,21 @@
     "test": "test"
   },
   "scripts": {
+    "build": "babel src/index.js --out-file index.js",
+    "lint": "eslint .",
     "test": "jest --coverage --coverageReporters=html",
     "test-production": "TEST_PRODUCTION=1 npm test",
-    "build": "babel src/index.js --out-file index.js",
     "watch": "babel src/index.js --watch --out-file index.js"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "babel-cli": "6.26.0",
+    "babel-eslint": "8.0.1",
     "babel-preset-env": "1.6.0",
+    "eslint": "4.8.0",
+    "eslint-config-wordpress": "2.0.0",
+    "eslint-plugin-jest": "21.2.0",
     "jest": "21.2.1",
     "time": "0.12.0"
   },
