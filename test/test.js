@@ -1,10 +1,10 @@
 const assert = require( 'assert' )
 const time = require( 'time' )
 
-let modulePath = '../src'
+let modulePath = '../'
 
 if ( 'TEST_PRODUCTION' in process.env && process.env.TEST_PRODUCTION ) {
-	modulePath = '../'
+	modulePath = '../dist'
 }
 
 const { default: ISOWeek } = require( modulePath )
