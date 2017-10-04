@@ -94,6 +94,77 @@ describe( 'ISOWeek', () => {
 		})
 	} )
 
+	describe( '#fromParts()', () => {
+		for ( let date of dates ) {
+			test( 'should return ' + ISOWeek.format( ...date[1] ) + ' for ' + date[1].toString(), () => {
+				let week = ISOWeek.fromParts( ...date[1] )
+
+				assert.equal( week.format( 'y-w-d' ), ISOWeek.format( ...date[1] ) )
+			} )
+		}
+
+		for ( let date of dates ) {
+			test( 'should return ' + ISOWeek.format( ...date[1] ) + ' for ' + date[1].toString() + ' UTC', () => {
+				let week = ISOWeek.fromParts( ...date[1], true )
+
+				assert.equal( week.format( 'y-w-d' ), ISOWeek.format( ...date[1] ) )
+			} )
+		}
+
+		for ( let date of dates ) {
+			test( 'should return ' + ISOWeek.format( ...date[1] ) + ' for [' + date[1].toString() + ']', () => {
+				let week = ISOWeek.fromParts( date[1] )
+
+				assert.equal( week.format( 'y-w-d' ), ISOWeek.format( ...date[1] ) )
+			} )
+		}
+
+		for ( let date of dates ) {
+			test( 'should return ' + ISOWeek.format( ...[...date[1].slice( 0, -1 ), 1 ] ) + ' for ' + date[1].slice( 0, -1 ).toString(), () => {
+				let week = ISOWeek.fromParts( ...date[1].slice( 0, -1 ) )
+
+				assert.equal( week.format( 'y-w-d' ), ISOWeek.format( ...[...date[1].slice( 0, -1 ), 1 ] ) )
+			} )
+		}
+
+		for ( let date of dates ) {
+			test( 'should return ' + ISOWeek.format( ...[...date[1].slice( 0, -1 ), 1 ] ) + ' for [' + date[1].slice( 0, -1 ).toString() + ']', () => {
+				let week = ISOWeek.fromParts( date[1].slice( 0, -1 ) )
+
+				assert.equal( week.format( 'y-w-d' ), ISOWeek.format( ...[...date[1].slice( 0, -1 ), 1 ] ) )
+			} )
+		}
+	} )
+
+	describe( '#fromString()', () => {
+		for ( let date of dates ) {
+			test( 'should return ' + ISOWeek.format( ...date[1] ) + ' for ' + ISOWeek.format( ...date[1] ), () => {
+				let input = ISOWeek.format( ...date[1] )
+				let week = ISOWeek.fromString( input )
+
+				assert.equal( week.format( 'y-w-d' ), input )
+			} )
+		}
+
+		for ( let date of dates ) {
+			test( 'should return ' + ISOWeek.format( ...date[1] ) + ' for ' + ISOWeek.format( ...date[1] ) + ' UTC', () => {
+				let input = ISOWeek.format( ...date[1] )
+				let week = ISOWeek.fromString( input, true )
+
+				assert.equal( week.format( 'y-w-d' ), input )
+			} )
+		}
+
+		for ( let date of dates ) {
+			test( 'should return ' + ISOWeek.format( ...[...date[1].slice( 0, -1 ), 1 ] ) + ' for ' + ISOWeek.format( ...date[1].slice( 0, -1 ) ), () => {
+				let input = ISOWeek.format( ...date[1].slice( 0, -1 ) )
+				let week = ISOWeek.fromString( input )
+
+				assert.equal( week.format( 'y-w-d' ), ISOWeek.format( ...[...date[1].slice( 0, -1 ), 1 ] ) )
+			} )
+		}
+	} )
+
 	describe( 'constructor', () => {
 		// January 1st, 2007 is a Monday
 		// Set the timezone to something behind UTC, so that in UTC, we're in
@@ -207,5 +278,12 @@ describe( 'ISOWeek', () => {
 				assert.equal( week.format( format ), '2017-W39' )
 			})
 		}
+	} )
+
+	describe( '.valueOf()', () => {
+		let date = new Date( Date.UTC( 2017, 8, 29 ) )
+		let week = new ISOWeek( date, true )
+
+		assert.equal( week.valueOf(), date.valueOf() )
 	} )
 } )

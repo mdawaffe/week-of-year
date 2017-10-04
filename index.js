@@ -4,6 +4,8 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _leftPad = require('left-pad');
@@ -47,13 +49,20 @@ var ISOWeek = function () {
 		value: function day() {
 			return this[PARTS][2];
 		}
+	}, {
+		key: 'valueOf',
+		value: function valueOf() {
+			return this.date.valueOf();
+		}
 
 		/**
    * Not very smart :)
-   * YYYY-WWW-D
-   * YYYY-WWW
-   * y-w-d
-   * y-w
+   * @param {string} [format=ymd]:
+   * 	YYYY-WWW-D
+   * 	YYYY-WWW
+   * 	y-w-d
+   * 	y-w
+   * @returns {string}
    */
 
 	}, {
@@ -69,6 +78,7 @@ var ISOWeek = function () {
 				case '-yw':
 					return ISOWeek.format.apply(null, parts.slice(0, 2));
 				case '-ywd':
+				default:
 					return ISOWeek.format.apply(null, parts);
 			}
 		}
@@ -91,6 +101,56 @@ var ISOWeek = function () {
 			var utc = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
 			return ISODayOfWeek(date, utc);
+		}
+	}, {
+		key: 'fromParts',
+		value: function fromParts(year, week) {
+			var day = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
+			var utc = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
+
+			if (Array.isArray(year) && 1 < year.length) {
+				utc = week || false;
+				var _year = year;
+
+				var _year2 = _slicedToArray(_year, 3);
+
+				year = _year2[0];
+				week = _year2[1];
+				var _year2$ = _year2[2];
+				day = _year2$ === undefined ? 1 : _year2$;
+			}
+
+			var _map = [year, week, day].map(function (n) {
+				return parseInt(n, 10);
+			});
+
+			var _map2 = _slicedToArray(_map, 3);
+
+			year = _map2[0];
+			week = _map2[1];
+			day = _map2[2];
+
+
+			var first = new ISOWeek(utc ? new Date(Date.UTC(year, 0, 4)) : new Date(year, 0, 4), utc);
+			var doy = week * 7 + day - (first.day() + 3);
+
+			return new ISOWeek(new Date(first.valueOf() + (doy - 1 - 3) * 24 * 3600 * 1000), utc);
+		}
+	}, {
+		key: 'fromString',
+		value: function fromString(weekString) {
+			var utc = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
+			var _weekString$split = weekString.split('-'),
+			    _weekString$split2 = _slicedToArray(_weekString$split, 3),
+			    year = _weekString$split2[0],
+			    week = _weekString$split2[1],
+			    _weekString$split2$ = _weekString$split2[2],
+			    day = _weekString$split2$ === undefined ? 1 : _weekString$split2$;
+
+			week = week.replace('W', '');
+
+			return ISOWeek.fromParts(year, week, day, utc);
 		}
 	}]);
 
@@ -142,12 +202,15 @@ function ISOWeekDateParts(date, utc) {
 	}
 
 	// JAZZ HANDS!
-	return [year, (dow1 - 1 < 4) + 4 * (month - 1) + ((2 * (month - 1) + (day - 1) + dow1 - dow + 6) * 9 >> 6), dowOrig];
+	return [year, (dow1 - 1 < 4) + 4 * (month - 1) + ((2 * month + day + dow1 - dow + 3) * 9 >> 6), dowOrig];
 }
 
 /**
  * Monday = 1
  * Sunday = 7
+ * @param {Date} date
+ * @param {boolean} utc Whether to treat date as UTC
+ * @returns {number}
  */
 function ISODayOfWeek(date, utc) {
 	return 1 + (date[utc ? 'getUTCDay' : 'getDay']() + 6) % 7;

@@ -25,6 +25,10 @@ export default class ISOWeek {
 		return this[PARTS][2]
 	}
 
+	valueOf() {
+		return this.date.valueOf()
+	}
+
 	/**
 	 * Not very smart :)
 	 * @param {string} [format=ymd]:
@@ -62,6 +66,27 @@ export default class ISOWeek {
 
 	static day( date, utc = false ) {
 		return ISODayOfWeek( date, utc )
+	}
+
+	static fromParts( year, week, day = 1, utc = false ) {
+		if ( Array.isArray( year ) && 1 < year.length ) {
+			utc = week || false;
+			[ year, week, day = 1 ] = year
+		}
+
+		[ year, week, day ] = [ year, week, day ].map( n => parseInt( n, 10 ) )
+
+		let first = new ISOWeek( utc ? new Date( Date.UTC( year, 0, 4 ) ) : new Date( year, 0, 4 ), utc )
+		let doy = week * 7 + day - ( first.day() + 3 )
+
+		return new ISOWeek( new Date( first.valueOf() + ( doy - 1 - 3 ) * 24 * 3600 * 1000 ), utc )
+	}
+
+	static fromString( weekString, utc = false ) {
+		let [ year, week, day = 1 ] = weekString.split( '-' )
+		week = week.replace( 'W', '' )
+
+		return ISOWeek.fromParts( year, week, day, utc )
 	}
 }
 
