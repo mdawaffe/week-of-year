@@ -1,9 +1,9 @@
 const assert = require( 'assert' )
-const time = require( 'time' )
 
 let modulePath = '../'
 
 if ( 'TEST_PRODUCTION' in process.env && process.env.TEST_PRODUCTION ) {
+	console.log( 'Testing production build' )
 	modulePath = '../dist'
 }
 
@@ -166,10 +166,15 @@ describe( 'ISOWeek', () => {
 	} )
 
 	describe( 'constructor', () => {
+		// process.env.TZ should be America/New_York in the test run.
+		test('should be running with TZ=America/New_York', () => {
+			assert.equal( process.env.TZ, 'America/New_York' )
+		})
+
 		// January 1st, 2007 is a Monday
-		// Set the timezone to something behind UTC, so that in UTC, we're in
+		// America/New_York is behind UTC, so that in UTC, we're in
 		// 2007 and in the local timezone, we're in 2006.
-		let date = new time.Date( 2006, 11, 31, 23, 59, 59, 'America/New_York' )
+		let date = new Date( 2006, 11, 31, 23, 59, 59 )
 
 		test('should set the .date property to the date input', () => {
 			let week = new ISOWeek( date )

@@ -1,6 +1,6 @@
 {
   "name": "week-of-year",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "main": "dist/index.js",
   "directories": {
@@ -11,22 +11,16 @@
   ],
   "scripts": {
     "build": "babel index.js --out-file dist/index.js",
-    "lint": "eslint .",
-    "test": "jest --coverage --coverageReporters=html",
+    "test": "TZ='America/New_York' jest --coverage --coverageReporters=html",
     "test-production": "TEST_PRODUCTION=1 npm test",
     "watch": "babel index.js --watch --out-file dist/index.js"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "babel-cli": "6.26.0",
-    "babel-eslint": "8.0.1",
-    "babel-preset-env": "1.6.0",
-    "eslint": "4.8.0",
-    "eslint-config-wordpress": "2.0.0",
-    "eslint-plugin-jest": "21.2.0",
-    "jest": "21.2.1",
-    "time": "0.12.0"
+    "@babel/cli": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "jest": "^24.9.0"
   },
   "dependencies": {
     "left-pad": "1.1.3"
