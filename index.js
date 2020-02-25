@@ -1,5 +1,3 @@
-import leftPad from 'left-pad'
-
 const PARTS = Symbol( 'PARTS' )
 
 export default class ISOWeek {
@@ -55,7 +53,7 @@ export default class ISOWeek {
 	}
 
 	static format( year, week, day = undefined ) {
-		let formatted = '' + year + '-W' + leftPad( week, 2, '0' )
+		let formatted = '' + year + '-W' + week.toString().padStart( 2, '0' )
 
 		if ( undefined === day ) {
 			return formatted
